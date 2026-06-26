@@ -6,8 +6,9 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-ROOT = "/home/hjlee/video_delta_analysis/out"
-RES = "/home/hjlee/video_delta_analysis/results"
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.join(HERE, "out")
+RES = os.path.join(HERE, "results")
 os.makedirs(RES, exist_ok=True)
 
 # (out-dir, display name) in a stable, type-grouped order

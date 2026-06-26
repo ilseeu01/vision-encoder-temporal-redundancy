@@ -2,8 +2,9 @@
 import os, sys, json, glob
 import numpy as np
 
-ROOT = "/home/hjlee/video_delta_analysis/out"
-RES_DIR = "/home/hjlee/video_delta_analysis/results"
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.join(HERE, "out")
+RES_DIR = os.path.join(HERE, "results")
 os.makedirs(RES_DIR, exist_ok=True)
 TAGS = ["fast", "static"]
 

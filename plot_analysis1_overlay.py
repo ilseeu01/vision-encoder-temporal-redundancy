@@ -9,8 +9,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-ROOT = "/home/hjlee/video_delta_analysis/out"
-RES = "/home/hjlee/video_delta_analysis/results"
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.join(HERE, "out")
+RES = os.path.join(HERE, "results")
 os.makedirs(RES, exist_ok=True)
 
 MODELS = [

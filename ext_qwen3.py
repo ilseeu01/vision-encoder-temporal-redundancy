@@ -2,12 +2,13 @@
 import os, sys, json
 import numpy as np, torch
 from PIL import Image
-sys.path.insert(0, "/home/hjlee/video_delta_analysis"); import common
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE); import common
 
 DEV = "cuda:0"
 MODEL = "Qwen/Qwen3-VL-8B-Instruct"; NAME = "Qwen3-VL-8B"
-VIDS = json.load(open("/home/hjlee/video_delta_analysis/videos.json"))
-OUT = "/home/hjlee/video_delta_analysis/out/qwen3"
+VIDS = json.load(open(os.path.join(HERE, "videos.json")))
+OUT = os.path.join(HERE, "out", "qwen3")
 
 
 def main():

@@ -3,13 +3,14 @@ trunk outputs [...,(1,1024,72,72)] at 1008 input -> 5184 tokens, dim 1024. Norm 
 import os, sys, json
 import numpy as np, torch
 from PIL import Image
-sys.path.insert(0, "/home/hjlee/video_delta_analysis"); import common
-sys.path.insert(0, "/home/hjlee/cd/sam3")
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE); import common
+sys.path.insert(0, os.environ.get("SAM3_REPO", os.path.expanduser("~/cd/sam3")))
 
 DEV = "cuda"
 NAME = "SAM3-ViT"
-VIDS = json.load(open("/home/hjlee/video_delta_analysis/videos.json"))
-OUT = "/home/hjlee/video_delta_analysis/out/sam3"
+VIDS = json.load(open(os.path.join(HERE, "videos.json")))
+OUT = os.path.join(HERE, "out", "sam3")
 NRES = 1008
 
 

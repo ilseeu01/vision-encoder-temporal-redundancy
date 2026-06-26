@@ -4,7 +4,8 @@ correlation+slope (L1, L2, cos), analysis-2 CF (L1, L2, cos), and a mean embeddi
 norm proxy for scale-normalised sensitivity discussion."""
 import json, glob, os
 
-ROOT = os.environ.get("VDA_OUT_ROOT", "/home/hjlee/video_delta_analysis/out_gray")
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.environ.get("VDA_OUT_ROOT", os.path.join(HERE, "out_gray"))
 ORDER = [("clip", "CLIP-L/14"), ("dinov2", "DINOv2-L/14"),
          ("sam2", "SAM2.1-Hiera-B+"), ("sam3", "SAM3-ViT"),
          ("intern25", "InternVL2.5-8B"), ("intern3", "InternVL3-8B"),

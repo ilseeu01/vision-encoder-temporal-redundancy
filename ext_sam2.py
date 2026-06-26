@@ -3,15 +3,16 @@ vision_features (1,256,64,64) -> 4096 tokens, dim 256."""
 import os, sys, json
 import numpy as np, torch
 from PIL import Image
-sys.path.insert(0, "/home/hjlee/video_delta_analysis"); import common
-sys.path.insert(0, "/home/hjlee/cd/sam2")
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE); import common
+sys.path.insert(0, os.environ.get("SAM2_REPO", os.path.expanduser("~/cd/sam2")))
 
 DEV = "cuda:0"
 NAME = "SAM2.1-Hiera-B+"
-CKPT = "/home/hjlee/cd/sam2/checkpoints/sam2.1_hiera_base_plus.pt"
+CKPT = os.environ.get("SAM2_CKPT", os.path.join(os.environ.get("SAM2_REPO", os.path.expanduser("~/cd/sam2")), "checkpoints", "sam2.1_hiera_base_plus.pt"))
 CFG = "configs/sam2.1/sam2.1_hiera_b+.yaml"
-VIDS = json.load(open("/home/hjlee/video_delta_analysis/videos.json"))
-OUT = "/home/hjlee/video_delta_analysis/out/sam2"
+VIDS = json.load(open(os.path.join(HERE, "videos.json")))
+OUT = os.path.join(HERE, "out", "sam2")
 NRES = 1024
 MEAN = np.array([0.485, 0.456, 0.406], np.float32)
 STD = np.array([0.229, 0.224, 0.225], np.float32)

@@ -1,0 +1,21 @@
+# Base Python deps shared by the analysis pipeline (common.py, plots, aggregation).
+# Install into EACH model conda env, but note: the vision models need DIFFERENT
+# transformers versions, so the pinned-but-flexible lines below are a starting point.
+# See README "Setup" for the per-env matrix.
+
+numpy
+matplotlib
+pillow
+decord            # primary video decoder (falls back to PyAV)
+av                # PyAV fallback decoder
+safetensors
+huggingface_hub   # `hf download` for model weights (dl_models.sh)
+yt-dlp            # only needed to fetch sample videos (dl_videos.sh)
+
+# torch + transformers are env-specific (CUDA build + model support). Examples:
+#   env qwen3vl  : torch>=2.4  transformers>=4.57   (CLIP, DINOv2, Qwen2.5-VL, Qwen3-VL, LLaVA-OV)
+#   env internvl : torch>=2.1  transformers==4.37.2 (InternVL2.5 / InternVL3, trust_remote_code)
+#   env sam2     : torch>=2.5  + SAM2 from source  (github.com/facebookresearch/sam2)
+#   env sam3     : torch>=2.5  + SAM3 image model from source
+torch
+transformers

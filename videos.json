@@ -1,12 +1,10 @@
 {
-  "fast":   {"path": "/home/hjlee/video_delta_analysis/videos/fast.mp4",
+  "fast":   {"path": "videos/fast.mp4",
              "desc": "downhill mountain-bike POV (fast egomotion)",
-             "src": "youtube ytsearch: downhill mountain bike pov fast",
-             "res": "854x480", "fps": 25, "duration_s": 45.0, "frames": 1125,
-             "mean_pixel_l2": 0.1090},
-  "static": {"path": "/home/hjlee/video_delta_analysis/videos/static.mp4",
+             "src": "any <1min fast-motion clip; sample fetched by dl_videos.sh (ytsearch, non-deterministic)",
+             "res": "854x480", "fps": 25, "duration_s": 45.0, "frames": 1125},
+  "static": {"path": "videos/static.mp4",
              "desc": "still calm landscape, locked camera (near-static)",
-             "src": "youtube ytsearch: still calm landscape long take no camera movement",
-             "res": "854x480", "fps": 25, "duration_s": 32.67, "frames": 816,
-             "mean_pixel_l2": 0.0069}
+             "src": "any <1min near-static clip; sample fetched by dl_videos.sh (ytsearch, non-deterministic)",
+             "res": "854x480", "fps": 25, "duration_s": 32.67, "frames": 816}
 }

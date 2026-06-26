@@ -15,8 +15,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-ROOT = "/home/hjlee/video_delta_analysis/out_gray"
-RES = "/home/hjlee/video_delta_analysis/results"
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.join(HERE, "out_gray")
+RES = os.path.join(HERE, "results")
 os.makedirs(RES, exist_ok=True)
 MODELS = [("clip", "CLIP-L/14"), ("dinov2", "DINOv2-L/14"),
           ("sam2", "SAM2.1-Hiera-B+"), ("sam3", "SAM3-ViT"),

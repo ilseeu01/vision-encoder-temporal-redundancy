@@ -2,12 +2,13 @@
 import os, sys, json
 import numpy as np, torch
 from PIL import Image
-sys.path.insert(0, "/home/hjlee/video_delta_analysis"); import common
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE); import common
 
 DEV = "cuda:0"
 MODEL = "openai/clip-vit-large-patch14"; NAME = "CLIP-L/14"
-VIDS = json.load(open("/home/hjlee/video_delta_analysis/videos.json"))
-OUT = "/home/hjlee/video_delta_analysis/out/clip"
+VIDS = json.load(open(os.path.join(HERE, "videos.json")))
+OUT = os.path.join(HERE, "out", "clip")
 NRES = 224
 MEAN = np.array([0.48145466, 0.4578275, 0.40821073], np.float32)
 STD = np.array([0.26862954, 0.26130258, 0.27577711], np.float32)

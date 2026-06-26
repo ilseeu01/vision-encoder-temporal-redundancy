@@ -7,14 +7,15 @@ import os, sys, json, glob
 import numpy as np, torch
 from PIL import Image
 from safetensors import safe_open
-sys.path.insert(0, "/home/hjlee/video_delta_analysis"); import common
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE); import common
 
 DEV = "cuda:0"
 MODEL = "lmms-lab/llava-onevision-qwen2-0.5b-ov"; NAME = "LLaVA-OneVision-0.5B"
-VIDS = json.load(open("/home/hjlee/video_delta_analysis/videos.json"))
-OUT = "/home/hjlee/video_delta_analysis/out/llava_ov"
+VIDS = json.load(open(os.path.join(HERE, "videos.json")))
+OUT = os.path.join(HERE, "out", "llava_ov")
 NRES = 384
-SNAP = sorted(glob.glob(f"/home/hjlee/.cache/huggingface/hub/models--{MODEL.replace('/','--')}/snapshots/*/"))[-1]
+SNAP = sorted(glob.glob(f"{os.path.expanduser('~')}/.cache/huggingface/hub/models--{MODEL.replace('/','--')}/snapshots/*/"))[-1]
 PREFIX = "model.vision_tower.vision_tower."   # -> leaves "vision_model.*"
 
 

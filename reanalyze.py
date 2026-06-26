@@ -1,7 +1,8 @@
 """Recompute analysis from cached frames.npz (no GPU) and patch meta.json's delta_summary.
 Used after changing analysis logic (e.g. matched-metric correlation) to avoid re-encoding."""
 import os, sys, json, glob
-sys.path.insert(0, "/home/hjlee/video_delta_analysis"); import common
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE); import common
 for npz in sorted(glob.glob("out/*/*/frames.npz")):
     d = os.path.dirname(npz); meta_p = os.path.join(d, "meta.json")
     meta = json.load(open(meta_p))

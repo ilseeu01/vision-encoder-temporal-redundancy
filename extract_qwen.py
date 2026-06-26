@@ -12,9 +12,9 @@ from PIL import Image
 sys.path.insert(0, os.path.dirname(__file__))
 import common
 
-VIDEO = "/home/hjlee/cd/sam2/assets/caterpillar_9_24.mp4"
-OUT   = "/home/hjlee/video_delta_analysis/out_qwen"
-NPZ   = "/home/hjlee/video_delta_analysis/cache/qwen_frames.npz"
+VIDEO = os.environ.get("VDA_VIDEO", os.path.expanduser("~/cd/sam2/assets/caterpillar_9_24.mp4"))
+OUT   = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out_qwen")
+NPZ   = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cache", "qwen_frames.npz")
 MODEL = "Qwen/Qwen3-VL-8B-Instruct"
 RES   = common.FIXED_RES          # 448
 DEV   = "cuda:0"

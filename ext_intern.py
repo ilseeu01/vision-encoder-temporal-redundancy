@@ -2,15 +2,16 @@
 Usage: python ext_intern.py {3|25}   (drops CLS; vision_model.last_hidden_state[:,1:,:])."""
 import os, sys, json
 import numpy as np, torch
-sys.path.insert(0, "/home/hjlee/video_delta_analysis"); import common
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE); import common
 
 DEV = "cuda:0"
 VARIANT = sys.argv[1] if len(sys.argv) > 1 else "3"
 CFG = {"3":  ("OpenGVLab/InternVL3-8B",  "InternVL3-8B",  "intern3"),
        "25": ("OpenGVLab/InternVL2_5-8B", "InternVL2.5-8B", "intern25")}[VARIANT]
 MODEL, NAME, SUB = CFG
-VIDS = json.load(open("/home/hjlee/video_delta_analysis/videos.json"))
-OUT = f"/home/hjlee/video_delta_analysis/out/{SUB}"
+VIDS = json.load(open(os.path.join(HERE, "videos.json")))
+OUT = os.path.join(HERE, "out", SUB)
 MEAN = np.array([0.485, 0.456, 0.406], np.float32)
 STD = np.array([0.229, 0.224, 0.225], np.float32)
 RES = common.FIXED_RES

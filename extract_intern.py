@@ -12,9 +12,9 @@ from PIL import Image
 sys.path.insert(0, os.path.dirname(__file__))
 import common
 
-VIDEO = "/home/hjlee/cd/sam2/assets/caterpillar_9_24.mp4"
-OUT   = "/home/hjlee/video_delta_analysis/out_intern"
-NPZ   = "/home/hjlee/video_delta_analysis/cache/intern_frames.npz"
+VIDEO = os.environ.get("VDA_VIDEO", os.path.expanduser("~/cd/sam2/assets/caterpillar_9_24.mp4"))
+OUT   = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out_intern")
+NPZ   = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cache", "intern_frames.npz")
 MODEL = "OpenGVLab/InternVL3-8B"
 RES   = common.FIXED_RES          # 448
 DEV   = "cuda:0"
