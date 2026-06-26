@@ -61,6 +61,24 @@ for r in rows:
                  f"{f(c['l1']['pearson_r'])} | {f(c['l2']['pearson_r'])} | "
                  f"{f(c['l1']['ols_slope'],2)} | {f(c['l2']['ols_slope'],1)} |")
 
+# --- Table 1b: token-norm normalised embedding change ---
+L.append("\n## 분석 1b — 토큰 norm으로 정규화한 인코딩 변화\n")
+L.append("raw 인코딩 변화는 임베딩 절대 크기에 좌우돼 모델 간 비교가 불가능하다(SAM2.1 0.33 vs "
+         "Qwen 1257). 그래서 각 모델의 **평균 토큰 크기(norm)** 로 나눠 무차원화한다: "
+         "`정규화Δ = 인코딩Δ ÷ 토큰 norm`. '토큰이 자기 길이 대비 얼마나 이동했나'를 뜻하며 "
+         "(예: 0.17 = 자기 길이의 17%), 모델 간 직접 비교가 가능하다. L1은 L1 norm으로, L2는 "
+         "L2 norm으로 맞춰 나눈다. 정규화 후에는 L1과 L2가 거의 일치한다.\n")
+L.append("| 모델 | 영상 | 토큰 norm (L1 / L2) | 정규화 인코딩Δ (L1) | 정규화 인코딩Δ (L2) |")
+L.append("|---|---|---|---|---|")
+for r in rows:
+    for v in ("fast", "static"):
+        d = r.get(v)
+        if not d:
+            continue
+        tn = d.get("token_norm", {}); en = d.get("emb_norm", {})
+        L.append(f"| {r['name']} | {v} | {f(tn.get('l1'))} / {f(tn.get('l2'),2)} | "
+                 f"{f(en.get('l1'),4)} | {f(en.get('l2'),4)} |")
+
 # --- Table 2: concentration factor ---
 L.append("\n## 분석 2 — 움직임 영역 집중도 (Concentration Factor)\n")
 L.append("CF = (움직임 영역 인코딩 변화 비율) / (면적 비율). 상위 10% 픽셀 변화 패치를 움직임 영역으로 본다. "

@@ -35,6 +35,7 @@ for sub, name in ORDER:
         a = s["averages_excluding_cuts"]
         c = s["analysis1_correlation"]
         mc = s["motion_concentration"]["p90"]
+        n1 = m.get("token_norm_l1"); n2 = m.get("token_norm_l2")
         rec[vid] = {
             "gray": m.get("grayscale", False),
             "n_frames": m.get("n_frames"),
@@ -43,6 +44,10 @@ for sub, name in ORDER:
             "timing_std": m["timing"]["per_frame_ms_std"],
             "pix": {k: a[k]["pixel"] for k in ("l1", "l2", "cos")},
             "emb": {k: a[k]["embedding"] for k in ("l1", "l2", "cos")},
+            # token-norm normaliser and normalised embedding change (change / token size)
+            "token_norm": {"l1": n1, "l2": n2},
+            "emb_norm": {"l1": (a["l1"]["embedding"] / n1) if n1 else None,
+                         "l2": (a["l2"]["embedding"] / n2) if n2 else None},
             "corr": {k: c.get(f"pix{k.upper()}_vs_emb{k.upper()}") for k in ("l1", "l2", "cos")},
             "cf": {k: mc["R_over_area"][k] for k in ("l1", "l2", "cos")},
             "R": {k: mc["R"][k] for k in ("l1", "l2", "cos")},

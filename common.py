@@ -75,6 +75,17 @@ def embed_delta_maps(e_prev, e_cur, gh, gw):
     }
 
 
+def token_norm_means(tok):
+    """Mean token magnitude over patches, used to normalise embedding deltas so
+    they are comparable across models ('change as a fraction of token size'):
+      n1 = mean_p(||e(p)||_1 / D)  -> matches L1 delta (mean |.| over D)
+      n2 = mean_p ||e(p)||_2       -> matches L2 delta (Euclidean norm)."""
+    t = np.asarray(tok, dtype=np.float32)
+    n1 = float((np.abs(t).sum(axis=1) / t.shape[1]).mean())
+    n2 = float(np.linalg.norm(t, axis=1).mean())
+    return n1, n2
+
+
 # ----------------------------------------------------------------------------- scene cut
 def detect_scene_cuts(series, k=SCENE_CUT_K):
     """
@@ -264,6 +275,8 @@ def run_pipeline(video_path, out_dir, model_name, forward_gpu, to_tokens, meta,
     if gh is None:
         P = prev_tok.shape[0]; gh = gw = int(round(P ** 0.5))
     P0 = prev_tok.shape[0]
+    tok_n1, tok_n2 = [], []
+    _n1, _n2 = token_norm_means(prev_tok); tok_n1.append(_n1); tok_n2.append(_n2)
     for i in range(1, N):
         cur01 = frames[i].astype(np.float32) / 255.0
         cur_tok = to_tokens(frames[i])
@@ -273,6 +286,7 @@ def run_pipeline(video_path, out_dir, model_name, forward_gpu, to_tokens, meta,
         assert cur_tok.shape[0] == P0, (
             f"{model_name}: patch count changed {P0}->{cur_tok.shape[0]} at frame {i}; "
             f"dynamic-resolution grid is not constant.")
+        _n1, _n2 = token_norm_means(cur_tok); tok_n1.append(_n1); tok_n2.append(_n2)
         pm = pixel_delta_maps(prev01, cur01, gh, gw)
         em = embed_delta_maps(prev_tok, cur_tok, gh, gw)
         for m in METRICS:
@@ -288,11 +302,15 @@ def run_pipeline(video_path, out_dir, model_name, forward_gpu, to_tokens, meta,
     meta["n_frames"] = N
     meta["processing_res"] = res
     meta["timing"] = timing
+    meta["token_norm_l1"] = float(np.mean(tok_n1))   # mean token ||.||_1/D  (L1 normaliser)
+    meta["token_norm_l2"] = float(np.mean(tok_n2))   # mean token ||.||_2     (L2 normaliser)
 
     thumbs = np.stack([np.asarray(Image.fromarray(f).resize((THUMB, THUMB)), dtype=np.uint8)
                        for f in frames])
     npz = os.path.join(out_dir, "frames.npz")
-    save = {"n_frames": N, "gh": gh, "gw": gw, "thumbs": thumbs}
+    save = {"n_frames": N, "gh": gh, "gw": gw, "thumbs": thumbs,
+            "tok_norm_l1": np.asarray(tok_n1, np.float32),
+            "tok_norm_l2": np.asarray(tok_n2, np.float32)}
     for k, v in scal.items(): save[k] = np.asarray(v, dtype=np.float32)
     for k, v in mp.items():   save[k] = np.asarray(v, dtype=np.float32)
     np.savez_compressed(npz, **save)
