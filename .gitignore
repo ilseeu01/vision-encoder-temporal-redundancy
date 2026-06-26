@@ -1,0 +1,22 @@
+# --- large generated data (do not commit) ---
+out/
+out_gray/
+out_intern/
+out_qwen/
+cache/
+videos/
+
+# --- run logs ---
+logs/
+logs_gray/
+*.log
+
+# --- python ---
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# --- os / editor ---
+.DS_Store
+.vscode/
