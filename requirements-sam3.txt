@@ -1,0 +1,13 @@
+# env: sam3  (Python 3.12)  — SAM3 image-model ViT trunk
+# Plus SAM3 image model from source (provides `sam3.model_builder`); set $SAM3_REPO.
+torch==2.7.0
+torchvision==0.22.0
+safetensors==0.7.0
+einops==0.8.1
+timm==1.0.22
+decord==0.6.0
+numpy==1.26.0
+scipy==1.16.3
+matplotlib==3.10.7
+pillow==11.3.0
+av==17.1.0

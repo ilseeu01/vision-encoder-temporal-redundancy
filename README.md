@@ -62,15 +62,22 @@
 - 각 지표는 patch-grid heatmap과 스칼라(패치 평균) 둘 다 산출. cosine은 distance(1−cos)로 기록.
 
 ## Setup
-이 코드는 **4개의 conda 환경**을 쓴다. 비전 모델마다 요구하는 `transformers` 버전이 달라
-하나로 합치기 어렵다. 각 env에 `requirements.txt`의 공통 deps를 깔고 아래 표대로 맞춘다.
+이 코드는 **4개의 conda 환경**을 쓴다. 비전 모델마다 요구하는 Python·torch·`transformers`
+버전이 호환되지 않아 하나로 합칠 수 없다. 각 env를 만들고 해당 **env별 requirements 파일**을
+설치한다(아래 버전은 실제 사용한 `pip freeze` 값).
 
-| env | 모델 | 핵심 의존성 |
-|---|---|---|
-| `qwen3vl` | CLIP, DINOv2, Qwen2.5-VL, Qwen3-VL, LLaVA-OV | `torch>=2.4`, `transformers>=4.57` |
-| `internvl` | InternVL2.5 / InternVL3 | `transformers==4.37.2`, `trust_remote_code=True` |
-| `sam2` | SAM2.1 | SAM2 소스(github.com/facebookresearch/sam2) + 체크포인트 |
-| `sam3` | SAM3 | SAM3 이미지 모델 소스 + 체크포인트 |
+| env | 모델 | requirements | 핵심 버전 |
+|---|---|---|---|
+| `qwen3vl` | CLIP, DINOv2, Qwen2.5-VL, Qwen3-VL, LLaVA-OV | [`requirements-qwen3vl.txt`](requirements-qwen3vl.txt) | py3.11, torch 2.5.1+cu121, transformers 4.57.1 |
+| `internvl` | InternVL2.5 / InternVL3 | [`requirements-internvl.txt`](requirements-internvl.txt) | py3.9, torch 2.8.0, **transformers 4.37.2** (필수), trust_remote_code |
+| `sam2` | SAM2.1 | [`requirements-sam2.txt`](requirements-sam2.txt) | py3.10, torch 2.5.1+cu121, **+ SAM2 소스**(github.com/facebookresearch/sam2) |
+| `sam3` | SAM3 | [`requirements-sam3.txt`](requirements-sam3.txt) | py3.12, torch 2.7.0+cu126, **+ SAM3 소스** |
+
+```bash
+conda create -n qwen3vl python=3.11 && conda activate qwen3vl
+pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu121
+pip install -r requirements-qwen3vl.txt        # (env마다 해당 파일로)
+```
 
 **모델 가중치**: `bash dl_models.sh` (HF 7종 자동 다운로드). SAM2.1/SAM3는 소스 레포라
 직접 받아 환경변수로 위치를 알려준다:

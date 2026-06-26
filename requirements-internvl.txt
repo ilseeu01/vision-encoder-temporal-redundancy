@@ -1,0 +1,15 @@
+# env: internvl  (Python 3.9)  — InternVL2.5-8B / InternVL3-8B (trust_remote_code)
+# NOTE: pinned to transformers==4.37.2 (newer versions break InternVL remote code).
+torch==2.8.0
+torchvision==0.23.0
+transformers==4.37.2
+accelerate==0.34.2
+einops==0.6.1
+timm==0.9.12
+flash-attn==2.3.6       # optional; needs CUDA toolchain to build
+decord==0.6.0
+safetensors==0.7.0
+numpy==1.26.4
+scipy==1.13.1
+matplotlib==3.9.4
+pillow==11.3.0
